@@ -1,0 +1,24 @@
+{
+  "name": "gatsby-site-demo-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "tsc-watch --onSuccess \"node ./dist/server.js\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jwalker2276/gatsby-site-demo-server.git"
+  },
+  "keywords": [],
+  "author": "Jordan Walker",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jwalker2276/gatsby-site-demo-server/issues"
+  },
+  "homepage": "https://github.com/jwalker2276/gatsby-site-demo-server#readme",
+  "dependencies": {
+    "tsc-watch": "^2.2.1",
+    "typescript": "^3.5.3"
+  }
+}
