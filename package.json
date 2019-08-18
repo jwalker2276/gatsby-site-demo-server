@@ -1,24 +1,40 @@
 {
   "name": "gatsby-site-demo-server",
   "version": "1.0.0",
-  "description": "",
+  "description": "Server for gatsby site",
   "main": "index.js",
   "scripts": {
-    "dev": "tsc-watch --onSuccess \"node ./dist/server.js\""
+    "start": "node app.js",
+    "dev": "nodemon app.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/jwalker2276/gatsby-site-demo-server.git"
   },
-  "keywords": [],
   "author": "Jordan Walker",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/jwalker2276/gatsby-site-demo-server/issues"
   },
   "homepage": "https://github.com/jwalker2276/gatsby-site-demo-server#readme",
+  "devDependencies": {
+    "eslint": "^6.1.0",
+    "eslint-config-airbnb": "^18.0.1",
+    "eslint-config-node": "^4.0.0",
+    "eslint-config-prettier": "^6.0.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-node": "^9.1.0",
+    "eslint-plugin-prettier": "^3.1.0",
+    "nodemon": "^1.19.1",
+    "prettier": "^1.18.2"
+  },
   "dependencies": {
-    "tsc-watch": "^2.2.1",
-    "typescript": "^3.5.3"
+    "body-parser": "^1.19.0",
+    "compression": "^1.7.4",
+    "dotenv": "^8.1.0",
+    "express": "^4.17.1",
+    "pg": "^7.12.1",
+    "pg-hstore": "^2.3.3",
+    "sequelize": "^5.15.1"
   }
 }
