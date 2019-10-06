@@ -1,6 +1,7 @@
 const express = require("express");
+const compression = require("compression");
 const bodyParser = require("body-parser");
-const path = require("path");
+const logger = require("morgan");
 
 // Set up app var
 const app = express();
@@ -11,16 +12,58 @@ require("dotenv").config();
 // Database
 const db = require("./src/config/database");
 
-// Set up port
-const PORT = process.env.PORT || 5000;
+// Logger
+app.use(logger("dev"));
 
-// Test database connection
+// Use body parser
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
+// Compression
+app.use(compression());
+
+// Database connection
 db.authenticate()
   .then(() => console.log("Database connected..."))
-  .catch(err => console.log(`Error: ${err}`));
+  .catch(err => console.log(err));
 
-// Test route
-app.get("/", (req, res) => res.send("INDEX"));
+// CORS
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*"); // Change star to domain later.
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+  );
+  if (req.method === "OPTIONS") {
+    res.header("Access-Control-Allow-Methods", "GET, POST, PUT, PATCH, DELETE");
+    return res.status(200).json({});
+  }
+  next();
+});
 
-// Run server
-app.listen(PORT, console.log(`Server started on port ${PORT}`));
+//* Routes --------------------------------------------------
+
+// Vehicle Routes
+const vehicleRoutes = require("./src/services/vehicles/vehiclesAPI");
+app.use("/api/vehicles", vehicleRoutes);
+
+//! Errors --------------------------------------------------
+
+// 404
+app.use((req, res, next) => {
+  const error = new Error("Route not found");
+  error.status = 404;
+  next(error);
+});
+
+// Catch All
+app.use((error, req, res, next) => {
+  res.status(error.status || 500);
+  res.json({
+    error: {
+      message: error.message
+    }
+  });
+});
+
+module.exports = app;
