@@ -45,6 +45,7 @@ app.use((req, res, next) => {
 
 // Vehicle Routes
 const vehicleRoutes = require("./src/services/vehicles/vehiclesAPI");
+
 app.use("/api/vehicles", vehicleRoutes);
 
 //! Errors --------------------------------------------------
@@ -57,7 +58,7 @@ app.use((req, res, next) => {
 });
 
 // Catch All
-app.use((error, req, res, next) => {
+app.use((error, req, res) => {
   res.status(error.status || 500);
   res.json({
     error: {

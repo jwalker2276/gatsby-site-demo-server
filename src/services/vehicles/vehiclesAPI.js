@@ -1,7 +1,8 @@
 const express = require("express");
-const db = require("../../config/database");
-const Vehicle = require("../vehicles/Vehicle");
-const { getAllVehicleData } = require("../vehicles/vehiclesController");
+const {
+  getAllVehicleData,
+  setVehicleData
+} = require("../vehicles/vehiclesController");
 
 const router = express.Router();
 
@@ -11,6 +12,6 @@ const router = express.Router();
 router.get("/all", getAllVehicleData);
 
 // Post a new vehicle
-router.post("/add");
+router.post("/add", setVehicleData);
 
 module.exports = router;
