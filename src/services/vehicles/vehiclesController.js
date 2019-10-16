@@ -9,6 +9,10 @@ exports.getAllVehicleData = (req, res) => {
     .catch(err => console.log(`ERROR : ${err}`));
 };
 
+exports.getVehicleData = (req, res) => {
+  res.json({ message: "Found vehicle data" });
+};
+
 exports.setVehicleData = (req, res) => {
   const {
     year,
@@ -67,4 +71,12 @@ exports.setVehicleData = (req, res) => {
       // Return display errors array
       res.json(displayErrors);
     });
+};
+
+exports.updateVehicleData = (req, res) => {
+  res.json({ message: "Updated vehicle data" });
+};
+
+exports.deleteVehicleData = (req, res) => {
+  res.json({ message: "Deleted vehicle data" });
 };
