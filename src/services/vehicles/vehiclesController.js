@@ -3,10 +3,9 @@ const Vehicle = require("../vehicles/Vehicle");
 exports.getAllVehicleData = (req, res) => {
   Vehicle.findAll()
     .then(vehicles => {
-      console.log(vehicles);
       res.status(200).json(vehicles);
     })
-    .catch(err => console.log(`ERROR : ${err}`));
+    .catch(err => res.status(500).json(err));
 };
 
 exports.getVehicleData = (req, res) => {
@@ -17,14 +16,14 @@ exports.getVehicleData = (req, res) => {
   })
     .then(queryData => {
       if (queryData !== null) {
-        res.json(queryData);
+        res.status(200).json(queryData);
       } else {
-        res.json({
+        res.status(400).json({
           error: `Could not find vehicle with id : ${req.params.id}`
         });
       }
     })
-    .catch(err => res.json(err));
+    .catch(err => res.status(500).json(err));
 };
 
 exports.setVehicleData = (req, res) => {
@@ -78,12 +77,12 @@ exports.setVehicleData = (req, res) => {
   };
 
   Vehicle.create(payload)
-    .then(createdVehicle => res.json(createdVehicle))
+    .then(createdVehicle => res.status(200).json(createdVehicle))
     .catch(errsObj => {
       // Clean up errors object
       const displayErrors = errsObj.errors.map(obj => obj.message);
       // Return display errors array
-      res.json(displayErrors);
+      res.status(400).json(displayErrors);
     });
 };
 
@@ -145,19 +144,39 @@ exports.updateVehicleData = (req, res) => {
   })
     .then(([rowsChanged, [updatedVehicle]]) => {
       if (rowsChanged >= 1) {
-        res.json({
+        res.status(200).json({
           rowsChanged,
           updatedVehicle
         });
       } else {
-        res.json({
+        res.status(400).json({
           error: "No changes were made or vehicle id was not found."
         });
       }
     })
-    .catch(err => res.json(err));
+    .catch(errsObj => {
+      // Clean up errors object
+      const displayErrors = errsObj.errors.map(obj => obj.message);
+      // Return display errors array
+      res.status(400).json(displayErrors);
+    });
 };
 
 exports.deleteVehicleData = (req, res) => {
-  res.json({ message: "Deleted vehicle data" });
+  Vehicle.destroy({
+    where: {
+      id: req.params.id
+    },
+    limit: 1 // Only return 1 row
+  })
+    .then(rowsDestroyed => {
+      if (rowsDestroyed >= 1) {
+        res.status(200).json(`Deleted ${rowsDestroyed} vehicle.`);
+      } else {
+        res
+          .status(400)
+          .json({ error: `No vehicle data was changed, check id.` });
+      }
+    })
+    .catch(err => res.status(500).json(err));
 };
