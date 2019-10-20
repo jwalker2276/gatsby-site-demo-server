@@ -1,32 +1,86 @@
+const validate = require("validator");
 const Vehicle = require("../vehicles/Vehicle");
 
-exports.getAllVehicleData = (req, res) => {
-  Vehicle.findAll()
-    .then(vehicles => {
-      res.status(200).json(vehicles);
-    })
-    .catch(err => res.status(500).json(err));
+exports.getAllVehicleData = async (req, res) => {
+  // Get all vehicles from database
+  const vehicleData = await Vehicle.findAll();
+  // Return status and data
+  res.status(200).json(vehicleData);
 };
 
-exports.getVehicleData = (req, res) => {
-  Vehicle.findOne({
-    where: {
-      id: req.params.id
-    }
-  })
-    .then(queryData => {
-      if (queryData !== null) {
-        res.status(200).json(queryData);
-      } else {
-        res.status(400).json({
-          error: `Could not find vehicle with id : ${req.params.id}`
-        });
-      }
-    })
-    .catch(err => res.status(500).json(err));
+exports.getVehicleData = async (req, res) => {
+  // Make sure the params id is an INT.
+  if (!validate.isInt(req.params.id)) {
+    throw Error("Id is not a INT");
+  }
+
+  // Get data from database
+  const vehicleData = await Vehicle.findOne({ where: { id: req.params.id } });
+
+  // Check data
+  if (vehicleData !== null) {
+    res.status(200).json(vehicleData);
+  } else {
+    res.status(400).json({ error: "Vehicle does not exist." });
+  }
 };
 
-exports.setVehicleData = (req, res) => {
+exports.setVehicleData = async (req, res) => {
+  const {
+    year,
+    make,
+    model,
+    trim,
+    price,
+    mileage,
+    engine,
+    transmission,
+    driveline_type,
+    shop_notes,
+    seller_id,
+    fuel_type,
+    color_exterior,
+    color_interior,
+    dyno_hp,
+    dyno_t,
+    image_m,
+    image_s,
+    isSold,
+    isConsignment,
+    wasImproved
+  } = req.body;
+
+  const payload = {
+    year: parseInt(year, 10),
+    make,
+    model,
+    trim,
+    price: parseInt(price, 10),
+    mileage: parseInt(mileage, 10),
+    engine,
+    transmission,
+    driveline_type,
+    shop_notes,
+    seller_id: parseInt(seller_id, 10),
+    fuel_type,
+    color_exterior,
+    color_interior,
+    dyno_hp: parseInt(dyno_hp, 10),
+    dyno_t: parseInt(dyno_t, 10),
+    image_m,
+    image_s,
+    isSold,
+    isConsignment,
+    wasImproved,
+    views: 0
+  };
+  // Create vehicle
+  const createdVehicle = await Vehicle.create(payload);
+  // Return the new vehicle
+  res.status(200).json(createdVehicle);
+};
+
+exports.updateVehicleData = async (req, res) => {
   const {
     year,
     make,
@@ -76,107 +130,48 @@ exports.setVehicleData = (req, res) => {
     views: 0
   };
 
-  Vehicle.create(payload)
-    .then(createdVehicle => res.status(200).json(createdVehicle))
-    .catch(errsObj => {
-      // Clean up errors object
-      const displayErrors = errsObj.errors.map(obj => obj.message);
-      // Return display errors array
-      res.status(400).json(displayErrors);
-    });
-};
-
-exports.updateVehicleData = (req, res) => {
-  const {
-    year,
-    make,
-    model,
-    trim,
-    price,
-    mileage,
-    engine,
-    transmission,
-    driveline_type,
-    shop_notes,
-    seller_id,
-    fuel_type,
-    color_exterior,
-    color_interior,
-    dyno_hp,
-    dyno_t,
-    image_m,
-    image_s,
-    isSold,
-    isConsignment,
-    wasImproved
-  } = req.body;
-
-  const payload = {
-    year: parseInt(year, 10),
-    make,
-    model,
-    trim,
-    price: parseInt(price, 10),
-    mileage: parseInt(mileage, 10),
-    engine,
-    transmission,
-    driveline_type,
-    shop_notes,
-    seller_id: parseInt(seller_id, 10),
-    fuel_type,
-    color_exterior,
-    color_interior,
-    dyno_hp: parseInt(dyno_hp, 10),
-    dyno_t: parseInt(dyno_t, 10),
-    image_m,
-    image_s,
-    isSold,
-    isConsignment,
-    wasImproved,
-    views: 0
-  };
-
-  Vehicle.update(payload, {
+  // Make sure the params id is an INT.
+  if (!validate.isInt(req.params.id)) {
+    throw Error("Id is not a INT");
+  }
+  // Update the vehicle with the new data
+  const theUpdatedVehicle = await Vehicle.update(payload, {
     returning: true,
     where: {
       id: req.params.id
     }
-  })
-    .then(([rowsChanged, [updatedVehicle]]) => {
-      if (rowsChanged >= 1) {
-        res.status(200).json({
-          rowsChanged,
-          updatedVehicle
-        });
-      } else {
-        res.status(400).json({
-          error: "No changes were made or vehicle id was not found."
-        });
-      }
-    })
-    .catch(errsObj => {
-      // Clean up errors object
-      const displayErrors = errsObj.errors.map(obj => obj.message);
-      // Return display errors array
-      res.status(400).json(displayErrors);
-    });
+  });
+
+  // Rows changed and updateVehicle are returned
+  const [rowsChanged, [updatedVehicle]] = theUpdatedVehicle;
+  // Display
+  if (rowsChanged >= 1) {
+    res.status(200).json(updatedVehicle);
+  } else {
+    res
+      .status(400)
+      .json({ message: "No changes were made or vehicle id was not found" });
+  }
 };
 
-exports.deleteVehicleData = (req, res) => {
-  Vehicle.destroy({
+exports.deleteVehicleData = async (req, res) => {
+  // Make sure the params id is an INT.
+  if (!validate.isInt(req.params.id)) {
+    throw Error("Id is not a INT");
+  }
+
+  // Delete vehicle in database
+  const vehicleRow = await Vehicle.destroy({
     where: {
       id: req.params.id
     },
-    limit: 1 // Only return 1 row
-  })
-    .then(rowsDestroyed => {
-      if (rowsDestroyed >= 1) {
-        res.status(200).json(`Deleted ${rowsDestroyed} vehicle.`);
-      } else {
-        res
-          .status(400)
-          .json({ error: `No vehicle data was changed, check id.` });
-      }
-    })
-    .catch(err => res.status(500).json(err));
+    limit: 1 // Make sure to delete only 1 record.
+  });
+
+  // If only one row was return after deleting
+  if (vehicleRow >= 1) {
+    res.status(200).json({ message: "Deleted vehicle." });
+  } else {
+    res.status(400).json({ error: "No vehicle data was changed, check id" });
+  }
 };

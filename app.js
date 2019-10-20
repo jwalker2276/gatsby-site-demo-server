@@ -2,6 +2,7 @@ const express = require("express");
 const compression = require("compression");
 const bodyParser = require("body-parser");
 const logger = require("morgan");
+const errorHandlers = require("./src/utils/errorHandlers");
 
 // Set up app var
 const app = express();
@@ -50,21 +51,20 @@ app.use("/api/vehicles", vehicleRoutes);
 
 //! Errors --------------------------------------------------
 
-// 404
-app.use((req, res, next) => {
-  const error = new Error("Route not found");
-  error.status = 404;
-  next(error);
-});
+// 404 error
+app.use(errorHandlers.notFound);
 
-// Catch All
-app.use((error, req, res) => {
-  res.status(error.status || 500);
-  res.json({
-    error: {
-      message: error.message
-    }
-  });
-});
+// Validation Errros
+app.use(errorHandlers.validationErrors);
+
+// Bad errors development
+if (app.get("env") === "development") {
+  app.use(errorHandlers.devErrors);
+}
+
+// Bad errors production
+app.use(errorHandlers.prodErrors);
+
+// TODO : Add PM2 for server restart
 
 module.exports = app;

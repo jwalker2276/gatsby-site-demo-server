@@ -4,7 +4,8 @@
   "description": "Server for gatsby site",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon server.js"
+    "start": "nodemon server.js",
+    "startup": "node server.js"
   },
   "repository": {
     "type": "git",

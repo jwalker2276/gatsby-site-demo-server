@@ -17,6 +17,9 @@ const Vehicle = db.define(
         len: {
           args: [4, 4],
           msg: "Year must be a 4 digit number."
+        },
+        isInt: {
+          msg: "Year must be a number."
         }
       }
     },
@@ -60,6 +63,9 @@ const Vehicle = db.define(
         len: {
           args: [1, 10],
           msg: "Price must be between 1 and 10 characters."
+        },
+        isInt: {
+          msg: "Price must be a number."
         }
       }
     },
@@ -76,6 +82,9 @@ const Vehicle = db.define(
         len: {
           args: [1, 10],
           msg: "Mileage must be between 1 and 10 characters."
+        },
+        isInt: {
+          msg: "Mileage must be a number."
         }
       }
     },

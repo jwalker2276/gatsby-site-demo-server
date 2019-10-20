@@ -7,6 +7,8 @@ const {
   deleteVehicleData
 } = require("../vehicles/vehiclesController");
 
+const { catchErrors } = require("../../utils/errorHandlers");
+
 const router = express.Router();
 
 //* Route alias = "/api/vehicles"
@@ -15,15 +17,15 @@ const router = express.Router();
 router.get("/all", getAllVehicleData);
 
 // Get a specific vehicle
-router.get("/:id", getVehicleData);
+router.get("/:id", catchErrors(getVehicleData));
 
 // Post a new vehicle
-router.post("/add", setVehicleData);
+router.post("/add", catchErrors(setVehicleData));
 
 // Update a specific vehicle
-router.put("/:id", updateVehicleData);
+router.put("/:id", catchErrors(updateVehicleData));
 
 // Delete a specific vehicle
-router.delete("/:id", deleteVehicleData);
+router.delete("/:id", catchErrors(deleteVehicleData));
 
 module.exports = router;
