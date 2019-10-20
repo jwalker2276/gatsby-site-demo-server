@@ -218,7 +218,7 @@ const Vehicle = db.define(
       }
     },
     image_m: {
-      type: Sequelize.TEXT,
+      type: Sequelize.STRING,
       allowNull: false,
       validate: {
         notEmpty: {
@@ -230,7 +230,7 @@ const Vehicle = db.define(
       }
     },
     image_s: {
-      type: Sequelize.TEXT,
+      type: Sequelize.STRING,
       allowNull: false,
       validate: {
         notEmpty: {
