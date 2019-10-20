@@ -14,7 +14,7 @@ const router = express.Router();
 //* Route alias = "/api/vehicles"
 
 // Get all vehicles
-router.get("/all", getAllVehicleData);
+router.get("/all", catchErrors(getAllVehicleData));
 
 // Get a specific vehicle
 router.get("/:id", catchErrors(getVehicleData));
