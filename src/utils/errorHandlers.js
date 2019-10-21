@@ -1,5 +1,5 @@
 // This method handles async errors for routes
-exports.catchErrors = fx => {
+exports.catchAsyncErrors = fx => {
   return function(req, res, next) {
     return fx(req, res, next).catch(next);
   };

@@ -1,5 +1,24 @@
 const validate = require("validator");
+const multer = require("multer");
+const jimp = require("jimp");
+
+// Model
 const Vehicle = require("../vehicles/Vehicle");
+
+const multerOptions = {
+  // Store here
+  storage: multer.memoryStorage(),
+  // Only allow images
+  fileFilter(req, file, callback) {
+    const isImage = file.mimetype.startsWith("image/");
+    // Check file
+    if (isImage) {
+      callback(null, true); // Accept image
+    } else {
+      callback({ error: "That filetype is not allowed." }, false);
+    }
+  }
+};
 
 exports.getAllVehicleData = async (req, res) => {
   // Get all vehicles from database
@@ -23,6 +42,37 @@ exports.getVehicleData = async (req, res) => {
   } else {
     res.status(400).json({ error: "Vehicle does not exist." });
   }
+};
+
+exports.uploadImage = multer(multerOptions).single("image");
+
+exports.resizeImage = async (req, res, next) => {
+  // Check if a file was attached to the req
+  if (!req.file) {
+    next();
+    return;
+  }
+  // Get extension
+  const extension = req.file.mimetype.split("/")[1];
+  // Buffer
+  const { buffer } = req.file;
+
+  // Setup names for images
+  const originalName = req.file.originalname.split(".")[0];
+  req.body.image_m = `${originalName}_med.${extension}`;
+  req.body.image_s = `${originalName}_small.${extension}`;
+
+  // Resize
+  const medImage = await jimp.read(buffer);
+  await medImage.resize(800, 450);
+  await medImage.write(`./public/uploads/${req.body.image_m}`);
+
+  const smallImage = await jimp.read(buffer);
+  await smallImage.resize(463, 260);
+  await smallImage.write(`./public/uploads/${req.body.image_s}`);
+
+  // Move to next middleware
+  next();
 };
 
 exports.setVehicleData = async (req, res) => {

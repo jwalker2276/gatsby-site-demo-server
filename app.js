@@ -1,4 +1,5 @@
 const express = require("express");
+const path = require("path");
 const compression = require("compression");
 const bodyParser = require("body-parser");
 const logger = require("morgan");
@@ -9,6 +10,9 @@ const app = express();
 
 // Load env
 require("dotenv").config();
+
+// Static files
+app.use(express.static(path.join(__dirname, "public")));
 
 // Database
 const db = require("./src/config/database");

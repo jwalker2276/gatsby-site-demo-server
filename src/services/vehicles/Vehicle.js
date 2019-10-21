@@ -219,27 +219,11 @@ const Vehicle = db.define(
     },
     image_m: {
       type: Sequelize.STRING,
-      allowNull: false,
-      validate: {
-        notEmpty: {
-          msg: "You must enter a image path."
-        },
-        notNull: {
-          msg: "You must enter a image path"
-        }
-      }
+      allowNull: true
     },
     image_s: {
       type: Sequelize.STRING,
-      allowNull: false,
-      validate: {
-        notEmpty: {
-          msg: "You must enter a image path."
-        },
-        notNull: {
-          msg: "You must enter a image path"
-        }
-      }
+      allowNull: true
     },
     isSold: {
       type: Sequelize.BOOLEAN,
