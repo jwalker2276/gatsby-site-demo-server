@@ -53,6 +53,11 @@ const vehicleRoutes = require("./src/services/vehicles/vehiclesAPI");
 
 app.use("/api/vehicles", vehicleRoutes);
 
+// User Routes
+const userRoutes = require("./src/services/users/usersAPI");
+
+app.use("/api/users", userRoutes);
+
 //! Errors --------------------------------------------------
 
 // 404 error
