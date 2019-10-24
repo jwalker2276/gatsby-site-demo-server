@@ -24,7 +24,10 @@ exports.getAllVehicleData = async (req, res) => {
   // Get all vehicles from database
   const vehicleData = await Vehicle.findAll();
   // Return status and data
-  res.status(200).json(vehicleData);
+  // res.status(200).json(vehicleData);
+
+  //! Templete test
+  res.render("index", { title: "Test title", message: "Test message" });
 };
 
 exports.getVehicleData = async (req, res) => {

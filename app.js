@@ -11,6 +11,10 @@ const app = express();
 // Load env
 require("dotenv").config();
 
+// Template engine
+app.set("views", path.join(__dirname, "views"));
+app.set("view engine", "pug");
+
 // Static files
 app.use(express.static(path.join(__dirname, "public")));
 
