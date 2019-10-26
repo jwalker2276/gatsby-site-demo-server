@@ -62,6 +62,11 @@ const userRoutes = require("./src/services/users/usersAPI");
 
 app.use("/api/users", userRoutes);
 
+// Dashboard Routes
+const dashboardRoutes = require("./src/services/dashboard/dashboard");
+
+app.use("/api/dashboard", dashboardRoutes);
+
 //! Errors --------------------------------------------------
 
 // 404 error

@@ -14,6 +14,11 @@ exports.registerUser = async (req, res, next) => {
   res.json("Register new user");
 };
 
+// Login form
+exports.loginForm = (req, res) => {
+  res.render("login", {});
+};
+
 // Login a user
 exports.loginUser = async (req, res, next) => {
   res.json("Login user");

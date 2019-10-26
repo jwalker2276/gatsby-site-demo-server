@@ -4,6 +4,7 @@ const { catchAsyncErrors } = require("../../utils/errorHandlers");
 const {
   validateUser,
   registerUser,
+  loginForm,
   loginUser,
   logoutUser,
   updateUser,
@@ -21,6 +22,9 @@ router.post(
   catchAsyncErrors(validateUser),
   catchAsyncErrors(registerUser)
 );
+
+// Response with the login form
+router.get("/login", loginForm);
 
 // Login a user
 router.post(
