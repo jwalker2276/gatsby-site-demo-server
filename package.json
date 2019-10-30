@@ -7,8 +7,7 @@
     "dev:server": "nodemon server.js",
     "dev:all": "concurrently \"nodemon server.js --ignore public/\" \"webpack --watch\"",
     "startup": "node server.js",
-    "build-client": "webpack",
-    "ui": "browser-sync start --proxy=localhost:3000/api/dashboard --files='./public/**/*.css, ./public/**/*.js, **/*.pug' --ignore=node_modules --reload-delay 10 --no-ui --no-open"
+    "watch-client-side": "browser-sync start --proxy=localhost:3000/api/dashboard --files='./public/**/*.css, ./public/**/*.js, **/*.pug' --ignore=node_modules --reload-delay 10 --no-ui --no-open"
   },
   "repository": {
     "type": "git",
