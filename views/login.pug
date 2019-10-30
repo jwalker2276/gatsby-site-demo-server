@@ -1,4 +1,15 @@
 extends layout
 
 block content
-  | This will be a login form
+  h2 Log in
+  form(action="/api/users/login" method="POST")
+    fieldset
+      label(for="username") Username
+        input(type="text" name="username" required)
+      label(for="password") Password
+        input(type="password" name="password" required)
+      input(type="submit" value="Log in")
+
+  p or
+
+  a(href="/api/users/register" target="_self" rel="noreferrer") Sign Up

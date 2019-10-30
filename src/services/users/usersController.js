@@ -6,22 +6,28 @@ const User = require("../users/Users");
 // Validate user info
 exports.validateUser = async (req, res, next) => {
   console.log("checking user data");
+  console.log(req.body);
   next();
+};
+
+// Register form
+exports.registerForm = (req, res) => {
+  res.render("register");
 };
 
 // Register a new user
 exports.registerUser = async (req, res, next) => {
-  res.json("Register new user");
+  res.json("saving to db");
 };
 
 // Login form
 exports.loginForm = (req, res) => {
-  res.render("login", {});
+  res.render("login");
 };
 
 // Login a user
 exports.loginUser = async (req, res, next) => {
-  res.json("Login user");
+  res.json(req.body);
 };
 // Logout a user
 exports.logoutUser = async (req, res, next) => {

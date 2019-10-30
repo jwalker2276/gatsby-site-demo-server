@@ -3,6 +3,7 @@ const { catchAsyncErrors } = require("../../utils/errorHandlers");
 
 const {
   validateUser,
+  registerForm,
   registerUser,
   loginForm,
   loginUser,
@@ -16,9 +17,12 @@ const router = express.Router();
 
 //* Route alias = "api/users"
 
+// Response with the sign up form
+router.get("/register", registerForm);
+
 // Register a new user
 router.post(
-  "/add",
+  "/register",
   catchAsyncErrors(validateUser),
   catchAsyncErrors(registerUser)
 );
