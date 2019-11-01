@@ -1,3 +1,117 @@
+:root {
+  --red-lightest: hsla(4, 90%, 95%, 1);
+  --red-light: hsla(4, 83%, 75%, 1);
+  --red-base: hsla(4, 77%, 48%, 1);
+  --red-dark: hsla(4, 84%, 35%, 1);
+  --red-darkest: hsla(4, 81%, 11%, 1);
+  --neut-lightest: hsla(4, 15%, 98%, 1);
+  --neut-lighter: hsla(4, 4%, 94%, 1);
+  --neut-light: hsla(4, 4%, 82%, 1);
+  --neut-base: hsla(4, 2%, 48%, 1);
+  --neut-dark: hsla(4, 2%, 15%, 1);
+  --neut-darkest: hsla(4, 2%, 11%, 1);
+  --shadow: hsla(4, 11%, 11%, 0.2);
+  --highlight: hsla(4, 15%, 98%, 0.2);
+  --heading-dark: hsla(4, 2%, 11%, 1);
+  --body-dark: hsla(4, 2%, 11%, 1);
+  --body-light: hsla(4, 15%, 98%, 1);
+  --body-light-t: hsla(4, 27%, 98%, 0.9);
+}
+
 body {
-  background-color: white;
+  margin: 0;
+  padding: 0;
+  box-sizing: content-box;
+  font-family: 'Open Sans', sans-serif;
+}
+
+/* Forms */
+.user__action__wrapper {
+  margin: 24px auto;
+  background-color: var(--neut-lightest);
+  border-radius: 5px;
+  width: 500px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 2px 3px 2px 0px var(--shadow), 2px 8px 10px 0px var(--shadow);
+}
+
+.user__action__title {
+  text-align: center;
+  color: inherit;
+  color: var(--body-dark);
+  text-transform: uppercase;
+  font-size: 32px;
+  font-family: 'Nunito', sans-serif;
+
+}
+
+.user__form {
+  margin: 0;
+}
+
+.user__form__fieldset {
+  border: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+}
+
+.user__form__label {
+  margin: 0;
+  font-size: 18px;
+  color: var(--body-dark);
+}
+
+.user__form__input {
+  display: block;
+  width: 100%;
+  height: 24px;
+  font-size: 18px;
+  margin: 8px 0 24px 0;
+  padding: 16px 4px;
+  color: var(--body-dark);
+  border-radius: 5px;
+}
+
+.user__form__submit {
+  width: 180px;
+  font-size: 24px;
+  padding: 8px;
+  border-radius: 5px;
+  color: var(--body-dark);
+  background-color: var(--red-base);
+  margin: 48px auto 8px auto;
+  text-transform: uppercase;
+  align-self: center;
+  cursor: pointer;
+}
+
+.user__form__divider {
+  overflow: visible;
+  padding: 0;
+  margin-top: 32px;
+  border: none;
+  border-top: 1px solid var(--neut-light);
+  text-align: center;
+  width: 95%;
+}
+
+.user__form__divider:after {
+  content: "Or";
+  position: relative;
+  top: -11px;
+  padding: 0 16px;
+  background: var(--neut-lightest);
+}
+
+.user__form__link {
+  width: 180px;
+  margin: 8px auto 24px auto;
+  font-size: 24px;
+  color: var(--body-dark);
+  text-decoration: none;
+  align-self: center;
+  text-align: center;
 }

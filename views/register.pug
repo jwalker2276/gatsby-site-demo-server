@@ -1,13 +1,18 @@
 extends layout
 
 block content
-  h2 Sign up
-  form(action="/api/users/register" method="POST")
-    fieldset
-      label(for="email") Email
-        input(type="email" name="email" required)
-      label(for="password") Password
-        input(type="password" name="password" required)
-      label(for="password-confirm") Confirm Password
-        input(type="password" name="password-confirm" required)
-      input(type="submit" value="Sign up")
+  section.user__action__wrapper
+    h2.user__action__title Sign up
+    form.user__form(action="/api/users/register" method="POST")
+      fieldset.user__form__fieldset
+        label.user__form__label(for="email") Email
+          input.user__form__input(type="email" name="email" required)
+        label.user__form__label(for="password") Password
+          input.user__form__input(type="password" name="password" required)
+        label.user__form__label(for="password-confirm") Confirm Password
+          input.user__form__input(type="password" name="password-confirm" required)
+        input.user__form__submit(type="submit" value="Sign up")
+
+    hr.user__form__divider
+
+    a.user__form__link(href="/api/users/login" target="_self" rel="noreferrer") Log in
