@@ -1,4 +1,5 @@
 const express = require("express");
+const { body } = require("express-validator");
 const { catchAsyncErrors } = require("../../utils/errorHandlers");
 
 const {
@@ -20,10 +21,35 @@ const router = express.Router();
 // Response with the sign up form
 router.get("/register", registerForm);
 
-// Register a new user
+// Validate then register a new user
 router.post(
   "/register",
-  catchAsyncErrors(validateUser),
+  [
+    body("email", "You must enter a email.")
+      .isEmail()
+      .normalizeEmail(),
+    body("username", "You must enter a username")
+      .not()
+      .isEmpty()
+      .trim()
+      .escape(),
+    body("password", "You must enter a password.")
+      .not()
+      .isEmpty()
+      .trim()
+      .escape(),
+    body("password-confirm", "You must enter a password.")
+      .not()
+      .isEmpty()
+      .trim()
+      .escape(),
+    body("password-confirm").custom((value, { req }) => {
+      if (value !== req.body.password) {
+        throw new Error("Passwords don't match!");
+      }
+      return true;
+    })
+  ],
   catchAsyncErrors(registerUser)
 );
 

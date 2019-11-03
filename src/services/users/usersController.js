@@ -1,14 +1,7 @@
-const validate = require("validator");
+const { check, body, validationResult } = require("express-validator");
 
 // Model
 const User = require("../users/Users");
-
-// Validate user info
-exports.validateUser = async (req, res, next) => {
-  console.log("checking user data");
-  console.log(req.body);
-  next();
-};
 
 // Register form
 exports.registerForm = (req, res) => {
@@ -16,8 +9,18 @@ exports.registerForm = (req, res) => {
 };
 
 // Register a new user
-exports.registerUser = async (req, res, next) => {
-  res.json("saving to db");
+exports.registerUser = async (req, res) => {
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    res.render("register", {
+      hasErrors: true,
+      errors: errors.errors
+    });
+    return;
+  }
+
+  res.status(200);
 };
 
 // Login form

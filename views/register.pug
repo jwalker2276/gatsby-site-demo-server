@@ -7,10 +7,16 @@ block content
       fieldset.user__form__fieldset
         label.user__form__label(for="email") Email
           input.user__form__input(type="email" name="email" required)
+        label.user__form__label(for="username") Username
+          input.user__form__input(type="text" name="username" minlength="6" maxlength="20" required)
         label.user__form__label(for="password") Password
-          input.user__form__input(type="password" name="password" required)
+          input.user__form__input(type="password" name="password" minlength="6" maxlength="20" required)
         label.user__form__label(for="password-confirm") Confirm Password
-          input.user__form__input(type="password" name="password-confirm" required)
+          input.user__form__input(type="password" name="password-confirm" minlength="6" maxlength="20" required)
+        if hasErrors
+          ul.user__form__error__list
+            each error in errors
+              li.user__form__input__error= error.msg
         input.user__form__submit(type="submit" value="Sign up")
 
     hr.user__form__divider
