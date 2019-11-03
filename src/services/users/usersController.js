@@ -8,8 +8,8 @@ exports.registerForm = (req, res) => {
   res.render("register");
 };
 
-// Register a new user
-exports.registerUser = async (req, res) => {
+// Check and clean new user data
+exports.checkNewUser = async (req, res, next) => {
   const errors = validationResult(req);
 
   if (!errors.isEmpty()) {
@@ -20,7 +20,7 @@ exports.registerUser = async (req, res) => {
     return;
   }
 
-  res.status(200);
+  next();
 };
 
 // Login form
@@ -28,8 +28,8 @@ exports.loginForm = (req, res) => {
   res.render("login");
 };
 
-// Login a user
-exports.loginUser = async (req, res) => {
+// Check and clean user login data
+exports.checkUserLogin = async (req, res, next) => {
   const errors = validationResult(req);
 
   if (!errors.isEmpty()) {
@@ -40,7 +40,7 @@ exports.loginUser = async (req, res) => {
     return;
   }
 
-  res.status(200);
+  next();
 };
 // Logout a user
 exports.logoutUser = async (req, res, next) => {

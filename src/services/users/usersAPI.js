@@ -4,8 +4,10 @@ const { catchAsyncErrors } = require("../../utils/errorHandlers");
 
 const {
   registerForm,
+  checkNewUser,
   registerUser,
   loginForm,
+  checkUserLogin,
   loginUser,
   logoutUser,
   updateUser,
@@ -49,7 +51,7 @@ router.post(
       return true;
     })
   ],
-  catchAsyncErrors(registerUser)
+  catchAsyncErrors(checkNewUser)
 );
 
 // Response with the login form
@@ -70,7 +72,7 @@ router.post(
       .trim()
       .escape()
   ],
-  catchAsyncErrors(loginUser)
+  catchAsyncErrors(checkUserLogin)
 );
 
 // Logout a user
