@@ -7,7 +7,8 @@ html(lang="en")
     link(rel="stylesheet", href="/dist/dashboard.css")
     link(href="https://fonts.googleapis.com/css?family=Nunito:300,400,600,700,900|Open+Sans&display=swap" rel="stylesheet")
   body
-    block content
-      | Test Content
+    main.dashboard__wrapper
+      block content
+        | Test Content
 
     script(src='/dist/dashboard.js')
