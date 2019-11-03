@@ -6,9 +6,13 @@ block content
     form.user__form(action="/api/users/login" method="POST")
       fieldset.user__form__fieldset
         label.user__form__label(for="username") Username
-          input.user__form__input(type="text" name="username" required)
+          input.user__form__input(type="text" name="username" )
         label.user__form__label(for="password") Password
-          input.user__form__input(type="password" name="password" required)
+          input.user__form__input(type="password" name="password" )
+        if hasErrors
+          ul.user__form__error__list
+            each error in errors
+              li.user__form__input__error= error.msg
         input.user__form__submit(type="submit" value="Let's go")
 
     hr.user__form__divider

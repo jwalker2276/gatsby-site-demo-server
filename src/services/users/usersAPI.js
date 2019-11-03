@@ -3,7 +3,6 @@ const { body } = require("express-validator");
 const { catchAsyncErrors } = require("../../utils/errorHandlers");
 
 const {
-  validateUser,
   registerForm,
   registerUser,
   loginForm,
@@ -59,7 +58,18 @@ router.get("/login", loginForm);
 // Login a user
 router.post(
   "/login",
-  catchAsyncErrors(validateUser),
+  [
+    body("username", "You must enter a username")
+      .not()
+      .isEmpty()
+      .trim()
+      .escape(),
+    body("password", "You must enter a password.")
+      .not()
+      .isEmpty()
+      .trim()
+      .escape()
+  ],
   catchAsyncErrors(loginUser)
 );
 
@@ -67,7 +77,7 @@ router.post(
 router.post("/logout", catchAsyncErrors(logoutUser));
 
 // Update a user
-router.put("/", catchAsyncErrors(validateUser), catchAsyncErrors(updateUser));
+// router.put("/", catchAsyncErrors(validateUser), catchAsyncErrors(updateUser));
 
 // Delete a user
 router.delete("/", catchAsyncErrors(deleteUser));

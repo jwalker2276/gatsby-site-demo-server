@@ -1,4 +1,4 @@
-const { check, body, validationResult } = require("express-validator");
+const { validationResult } = require("express-validator");
 
 // Model
 const User = require("../users/Users");
@@ -29,8 +29,18 @@ exports.loginForm = (req, res) => {
 };
 
 // Login a user
-exports.loginUser = async (req, res, next) => {
-  res.json(req.body);
+exports.loginUser = async (req, res) => {
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    res.render("login", {
+      hasErrors: true,
+      errors: errors.errors
+    });
+    return;
+  }
+
+  res.status(200);
 };
 // Logout a user
 exports.logoutUser = async (req, res, next) => {
