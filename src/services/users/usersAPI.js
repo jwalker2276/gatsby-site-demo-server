@@ -8,6 +8,7 @@ const {
   registerUser,
   loginForm,
   checkUserLogin,
+  hashUserData,
   loginUser,
   logoutUser,
   updateUser,
@@ -51,7 +52,9 @@ router.post(
       return true;
     })
   ],
-  catchAsyncErrors(checkNewUser)
+  catchAsyncErrors(checkNewUser),
+  catchAsyncErrors(hashUserData),
+  catchAsyncErrors(registerUser)
 );
 
 // Response with the login form

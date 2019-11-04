@@ -20,8 +20,8 @@ const User = db.define(
           args: [6, 20],
           msg: "Username must be 6 to 20 characters in length."
         },
-        isAlpha: {
-          msg: "Username must only contains letters."
+        isAlphanumeric: {
+          msg: "Username must only contain letters and numbers."
         }
       }
     },
@@ -37,33 +37,33 @@ const User = db.define(
           // No null values
           msg: "You must enter a password."
         }
-      },
-      email: {
-        type: Sequelize.STRING,
-        allowNull: false,
-        validate: {
-          notEmpty: {
-            // No empty strings
-            msg: "You must enter an email."
-          },
-          notNull: {
-            // No null values
-            msg: "You must enter an email."
-          }
+      }
+    },
+    email: {
+      type: Sequelize.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: {
+          // No empty strings
+          msg: "You must enter an email."
+        },
+        notNull: {
+          // No null values
+          msg: "You must enter an email."
         }
-      },
-      role: {
-        type: Sequelize.STRING,
-        allowNull: false,
-        validate: {
-          notEmpty: {
-            // No empty strings
-            msg: "You must enter a role."
-          },
-          notNull: {
-            // No null values
-            msg: "You must enter a role."
-          }
+      }
+    },
+    role: {
+      type: Sequelize.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: {
+          // No empty strings
+          msg: "You must enter a role."
+        },
+        notNull: {
+          // No null values
+          msg: "You must enter a role."
         }
       }
     }

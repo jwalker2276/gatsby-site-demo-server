@@ -1,4 +1,5 @@
 const { validationResult } = require("express-validator");
+const bcrypt = require("bcrypt");
 
 // Model
 const User = require("../users/Users");
@@ -21,6 +22,48 @@ exports.checkNewUser = async (req, res, next) => {
   }
 
   next();
+};
+
+exports.hashUserData = async (req, res, next) => {
+  // Generate password hash
+  const saltRounds = 10;
+
+  // Hash password
+  await bcrypt.hash(req.body.password, saltRounds, (err, hash) => {
+    if (err) {
+      throw Error(err);
+    }
+    // Update plain text password to hash
+    req.body.password = hash;
+    next();
+  });
+};
+
+// Add new user
+exports.registerUser = async (req, res) => {
+  const { username, email, password } = req.body;
+  const role = "base user";
+
+  const userPayload = {
+    username,
+    email,
+    hash: password,
+    role
+  };
+
+  // Check if user exist
+  const userWasFound = await User.findOne({ where: { email } });
+
+  if (userWasFound === null) {
+    // Create new user
+    await User.create(userPayload);
+    res.render("dashboard");
+  } else {
+    res.render("login", {
+      hasErrors: true,
+      errors: [{ msg: "User already exist, please log in." }]
+    });
+  }
 };
 
 // Login form
