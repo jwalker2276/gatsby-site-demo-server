@@ -8,6 +8,7 @@ const {
   registerUser,
   loginForm,
   checkUserLogin,
+  checkUserPassword,
   hashUserData,
   loginUser,
   logoutUser,
@@ -75,7 +76,9 @@ router.post(
       .trim()
       .escape()
   ],
-  catchAsyncErrors(checkUserLogin)
+  catchAsyncErrors(checkUserLogin),
+  catchAsyncErrors(checkUserPassword),
+  catchAsyncErrors(loginUser)
 );
 
 // Logout a user

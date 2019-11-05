@@ -85,18 +85,63 @@ exports.checkUserLogin = async (req, res, next) => {
 
   next();
 };
+
+// Check Username and password
+exports.checkUserPassword = async (req, res, next) => {
+  // Fetch hash from db
+  const plainTextPassword = req.body.password;
+  const userAccount = await User.findOne({
+    where: { username: req.body.username }
+  });
+
+  // Does account exist
+  if (userAccount === null) {
+    res.render("login", {
+      hasErrors: true,
+      errors: [{ msg: "Could not find account, check details and try again." }]
+    });
+  }
+
+  const accountHash = userAccount.hash;
+  // Check password
+  const match = await bcrypt.compare(plainTextPassword, accountHash);
+
+  if (match) {
+    next();
+  } else {
+    res.render("login", {
+      hasErrors: true,
+      errors: [
+        { msg: "Account details don't match, check details and try again." }
+      ]
+    });
+  }
+};
+
+// Login in user
+exports.loginUser = (req, res) => {
+  // TODO : Start session
+  // TODO : Redirect to dashboard
+  //! Make sure "Cannot set headers after they are sent" goes away.
+
+  res.json("dashboard");
+};
+
 // Logout a user
 exports.logoutUser = async (req, res, next) => {
   res.json("Logout user");
 };
+
 // Update user's info
 exports.updateUser = async (req, res, next) => {
   res.json("Updated user");
 };
+
 // Delete a user
 exports.deleteUser = async (req, res, next) => {
   res.json("Deleted user");
 };
+
 // Get users data
 exports.getUsersData = async (req, res, next) => {
   res.json("Users data");
