@@ -3,6 +3,8 @@ const path = require("path");
 const compression = require("compression");
 const bodyParser = require("body-parser");
 const logger = require("morgan");
+const session = require("express-session");
+const passport = require("passport");
 const errorHandlers = require("./src/utils/errorHandlers");
 
 // Set up app var
@@ -27,6 +29,20 @@ app.use(logger("dev"));
 // Use body parser
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+
+// Authentication
+app.use(
+  session({
+    secret: process.env.SESS_SECRET,
+    resave: false,
+    saveUninitialized: false
+    // TODO : Set to true in production
+    // cookie: { secure: true }
+  })
+);
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Compression
 app.use(compression());
